@@ -1,0 +1,8 @@
+#!/bin/bash
+
+../../gradlew assemble
+
+echo
+echo "If everything worked, you should see 'Hello World' next:"
+java -cp build/libs/mixed.jar com.example.Main
+

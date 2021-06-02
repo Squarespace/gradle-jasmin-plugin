@@ -2,7 +2,7 @@
 /.project
 /.settings/
 
-/.gradle/
+.gradle/
 
 bin/
 build/

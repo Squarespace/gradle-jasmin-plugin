@@ -1,0 +1,19 @@
+
+buildscript {
+  repositories {
+    mavenLocal()
+    mavenCentral()
+  }
+  dependencies {
+    classpath group: 'com.squarespace.jasmin', name: 'com.squarespace.jasmin.gradle.plugin', version: '0.1'
+  }
+}
+
+apply plugin: 'java'
+apply plugin: 'com.squarespace.jasmin'
+
+java {
+  withJavadocJar()
+  withSourcesJar()
+}
+

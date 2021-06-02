@@ -1,5 +1,6 @@
 plugins {
     id 'java-gradle-plugin'
+    id 'eclipse'
 }
 
 repositories {
@@ -9,6 +10,16 @@ repositories {
 
 group = 'com.squarespace.gradle.recognizer'
 version = '0.1'
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'maven-publish'
+
+eclipse {
+  classpath {
+    downloadSources = true
+  }
+}
 
 gradlePlugin {
   plugins {
@@ -28,6 +39,6 @@ wrapper {
 }
 
 dependencies {
-  implementation 'com.squarespace.recognizer:recognizer-compiler:0.0.1-SNAPSHOT'
+  api 'com.squarespace.recognizer:recognizer-compiler:0.0.1-SNAPSHOT'
 }
 
