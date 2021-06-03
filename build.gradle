@@ -1,15 +1,13 @@
 plugins {
     id 'java-gradle-plugin'
     id 'eclipse'
+    id 'com.gradle.plugin-publish' version '0.14.0'
 }
 
 repositories {
   mavenLocal()
   mavenCentral()
 }
-
-group = 'com.squarespace.gradle.jasmin'
-version = '0.1'
 
 apply plugin: 'java'
 apply plugin: 'eclipse'
@@ -21,10 +19,21 @@ eclipse {
   }
 }
 
+group = 'com.squarespace.gradle.jasmin'
+version = '0.1'
+
+pluginBundle {
+  website = 'https://github.com/Squarespace/gradle-jasmin-plugin/'
+  vcsUrl = 'https://github.com/Squarespace/gradle-jasmin-plugin.git'
+  tags = ['bytecode', 'jvm', 'assembler', 'jasmin']
+}
+
 gradlePlugin {
   plugins {
     jasminPlugin {
       id = 'com.squarespace.jasmin'
+      displayName = 'Jasmin assembler'
+      description = 'Assemble Jasmin source to JVM classfiles'
       implementationClass = 'com.squarespace.gradle.jasmin.JasminPlugin'
     }
   }
