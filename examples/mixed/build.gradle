@@ -5,15 +5,29 @@ buildscript {
     mavenCentral()
   }
   dependencies {
-    classpath group: 'com.squarespace.jasmin', name: 'com.squarespace.jasmin.gradle.plugin', version: '0.1'
+    classpath group: 'com.squarespace.gradle.jasmin', name: 'gradle-jasmin-plugin', version: '0.2'
   }
+}
+
+repositories {
+  mavenLocal()
+  mavenCentral()
 }
 
 apply plugin: 'java'
 apply plugin: 'com.squarespace.jasmin'
+apply plugin: 'eclipse'
+
+dependencies {
+  testImplementation 'org.testng:testng:7.4.0'
+}
 
 java {
   withJavadocJar()
   withSourcesJar()
+}
+
+test {
+  useTestNG()
 }
 

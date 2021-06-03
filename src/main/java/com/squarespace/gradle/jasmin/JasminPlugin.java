@@ -7,6 +7,7 @@ import org.gradle.api.Action;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
 import org.gradle.api.Task;
+import org.gradle.api.artifacts.Configuration;
 import org.gradle.api.file.SourceDirectorySet;
 import org.gradle.api.internal.tasks.DefaultSourceSet;
 import org.gradle.api.internal.tasks.DefaultSourceSetOutput;
@@ -46,15 +47,16 @@ public class JasminPlugin implements Plugin<Project> {
         final String buildDir = project.getLayout().getBuildDirectory().get().toString();
         final Path destinationDir = Paths.get(buildDir).resolve("classes").resolve("jasmin").resolve(name);
 
+        // Ensure that compiled Jasmin classes appear on the Java classpath
+        Configuration config = project.getConfigurations().getByName(javaSourceSet.getCompileClasspathConfigurationName());
+        config.getDependencies().add(project.getDependencies().create(project.files(destinationDir.toFile())));
+
         // Create a named task for compiling Jasmin files in the current source set (e.g. "main")
         final String taskName = javaSourceSet.getCompileTaskName("jasmin");
 
         // Ensure compilation of Java depends on Jasmin compilation
         Task javaTask = project.getTasks().getByName(javaSourceSet.getCompileJavaTaskName());
         javaTask.dependsOn(taskName);
-
-        // Ensure compiled Java classes can see Jasmin classes on the classpath
-        javaSourceSet.setCompileClasspath(javaSourceSet.getCompileClasspath().plus(project.files(destinationDir)));
 
         // Ensure jar contains Jasmin-compiled classes
         DefaultSourceSetOutput outputSet = (DefaultSourceSetOutput) javaSourceSet.getOutput();

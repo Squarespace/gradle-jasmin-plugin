@@ -7,12 +7,15 @@
     return
 .end method
 
-.method public static main([Ljava/lang/String;)V
+.method public static sayHello()Ljava/lang/String;
     .limit stack 2
+    
     getstatic java/lang/System/out Ljava/io/PrintStream;
-    ldc "Hello World!"
+    ldc "Hello from Jasmin!"
     invokevirtual java/io/PrintStream/println(Ljava/lang/String;)V
-    return
+    
+	invokestatic com/example/Util/message()Ljava/lang/String;
+    areturn
 .end method
 
 

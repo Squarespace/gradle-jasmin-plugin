@@ -3,6 +3,6 @@
 ../../gradlew assemble
 
 echo
-echo "If everything worked, you should see 'Hello World' next:"
+echo "If everything worked, you should see hello messages from Java and Jasmin:"
 java -cp build/libs/mixed.jar com.example.Main
 
