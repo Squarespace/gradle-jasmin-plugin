@@ -1,5 +1,6 @@
 package com.squarespace.gradle.jasmin;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -17,6 +18,7 @@ import org.gradle.api.tasks.compile.AbstractCompile;
 
 import jasmin.ClassFile;
 
+
 /**
  * Assembles Jasmin source into JVM classfile format.
  */
@@ -28,6 +30,26 @@ public class JasminCompile extends AbstractCompile {
     this.sourceDirs = sourceDirs.stream()
         .map(e -> Paths.get(e.getAbsolutePath()))
         .collect(Collectors.toList());
+  }
+
+  static class JasminClassLoader extends ClassLoader {
+    private final String name;
+    private final byte[] data;
+    public JasminClassLoader(String name, byte[] data) {
+      super();
+      this.name = name;
+      this.data = data;
+    }
+
+    @Override
+    public Class<?> loadClass(String name) throws ClassNotFoundException {
+      if (this.name.equals(name)) {
+        Class<?> result = defineClass(name, data, 0, data.length);
+        System.out.println(result);
+        return result;
+      }
+      return super.loadClass(name);
+    }
   }
 
   @TaskAction
@@ -47,6 +69,19 @@ public class JasminCompile extends AbstractCompile {
       // obtain the package name from the Jasmin class file directly
       Path sourcePath = relativeSourcePath(file);
       String baseName = baseName(file.getName());
+      String fqName = sourcePath.resolve(baseName).toString().replace('/', '.');
+
+      // Trigger the Java class verification pass before writing to disk.
+      ByteArrayOutputStream out = new ByteArrayOutputStream();
+      try {
+        cls.write(out);
+        JasminClassLoader loader = new JasminClassLoader(fqName, out.toByteArray());
+        Class<?> clazz = loader.loadClass(fqName.replace('/', '.'));
+        clazz.getMethods();
+      } catch (Exception e) {
+        throw new GradleException("Error loading class file", e);
+      }
+
       Path outDir = destDir.resolve(sourcePath);
       makedirs(outDir);
       String outPath = outDir.resolve(baseName + ".class").toString();
@@ -57,6 +92,7 @@ public class JasminCompile extends AbstractCompile {
       } catch (Exception e) {
         throw new GradleException("Error writing class output file", e);
       }
+
     }
   }
 
