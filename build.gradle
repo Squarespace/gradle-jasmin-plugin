@@ -8,7 +8,7 @@ repositories {
   mavenCentral()
 }
 
-group = 'com.squarespace.gradle.recognizer'
+group = 'com.squarespace.gradle.jasmin'
 version = '0.1'
 
 apply plugin: 'java'
@@ -25,11 +25,7 @@ gradlePlugin {
   plugins {
     jasminPlugin {
       id = 'com.squarespace.jasmin'
-      implementationClass = 'com.squarespace.gradle.recognizer.JasminPlugin'
-    }
-    recognizerPlugin {
-      id = 'com.squarespace.recognizer'
-      implementationClass = 'com.squarespace.gradle.recognizer.RecognizerPlugin'
+      implementationClass = 'com.squarespace.gradle.jasmin.JasminPlugin'
     }
   }
 }
@@ -39,6 +35,6 @@ wrapper {
 }
 
 dependencies {
-  api 'com.squarespace.recognizer:recognizer-compiler:0.0.1-SNAPSHOT'
+  implementation 'ca.mcgill.sable:jasmin:3.0.2'
 }
 

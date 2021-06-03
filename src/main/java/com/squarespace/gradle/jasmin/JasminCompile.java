@@ -1,4 +1,4 @@
-package com.squarespace.gradle.recognizer;
+package com.squarespace.gradle.jasmin;
 
 import java.io.File;
 import java.io.FileInputStream;
