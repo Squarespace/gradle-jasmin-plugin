@@ -13,6 +13,8 @@ import org.gradle.api.internal.tasks.DefaultSourceSet;
 import org.gradle.api.internal.tasks.DefaultSourceSetOutput;
 import org.gradle.api.plugins.JavaPluginConvention;
 import org.gradle.api.tasks.SourceSet;
+import org.gradle.plugins.ide.eclipse.EclipsePlugin;
+import org.gradle.plugins.ide.eclipse.model.EclipseModel;
 
 /**
  * Gradle plugin for compiling Jasmin assembly source code.
@@ -69,6 +71,13 @@ public class JasminPlugin implements Plugin<Project> {
           task.setClasspath(javaSourceSet.getCompileClasspath());
           task.setDestinationDir(destinationDir.toFile());
           task.sourceDirs(jasminSet.getSrcDirs());
+
+          // Register as an auto-build task if Eclipse plugin is present
+          project.getPlugins().withType(EclipsePlugin.class, (eclipse) -> {
+            EclipseModel model = project.getExtensions().getByType(EclipseModel.class);
+            model.autoBuildTasks(task);
+          });
+
         });
 
       }
