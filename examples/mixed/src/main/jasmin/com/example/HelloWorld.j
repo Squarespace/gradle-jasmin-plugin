@@ -17,3 +17,4 @@
 	invokestatic com/example/Util/message()Ljava/lang/String;
 	areturn
 .end method
+ 

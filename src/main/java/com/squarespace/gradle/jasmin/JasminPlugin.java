@@ -1,5 +1,6 @@
 package com.squarespace.gradle.jasmin;
 
+import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -47,6 +48,8 @@ public class JasminPlugin implements Plugin<Project> {
 
         // Get references to the build and classes output directories
         final String buildDir = project.getLayout().getBuildDirectory().get().toString();
+        System.err.println("build dir " + buildDir);
+        System.err.println("build dir 2 " + project.getBuildDir());
         final Path destinationDir = Paths.get(buildDir).resolve("classes").resolve("jasmin").resolve(name);
 
         // Ensure that compiled Jasmin classes appear on the Java classpath
@@ -71,10 +74,18 @@ public class JasminPlugin implements Plugin<Project> {
           task.setClasspath(javaSourceSet.getCompileClasspath());
           task.setDestinationDir(destinationDir.toFile());
           task.sourceDirs(jasminSet.getSrcDirs());
+        });
 
-          // Register as an auto-build task if Eclipse plugin is present
-          project.getPlugins().withType(EclipsePlugin.class, (eclipse) -> {
-            EclipseModel model = project.getExtensions().getByType(EclipseModel.class);
+        // Register as an auto-build task if Eclipse plugin is present
+        project.getPlugins().withType(EclipsePlugin.class, (eclipse) -> {
+          EclipseModel model = project.getExtensions().getByType(EclipseModel.class);
+          File outputDir = new File("bin/" + name);
+          project.getTasks().create(taskName + "Eclipse", JasminCompile.class, (task) -> {
+            task.setDescription("Compiles the " + name + " Jasmin source in Eclipse");
+            task.setSource(jasminSet);
+            task.setClasspath(javaSourceSet.getCompileClasspath());
+            task.setDestinationDir(outputDir);
+            task.sourceDirs(jasminSet.getSrcDirs());
             model.autoBuildTasks(task);
           });
 

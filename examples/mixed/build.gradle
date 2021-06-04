@@ -5,7 +5,7 @@ buildscript {
     mavenCentral()
   }
   dependencies {
-    classpath group: 'com.squarespace.gradle.jasmin', name: 'gradle-jasmin-plugin', version: '0.2'
+    classpath 'com.squarespace.gradle.jasmin:gradle-jasmin-plugin:0.5'
   }
 }
 
