@@ -48,8 +48,6 @@ public class JasminPlugin implements Plugin<Project> {
 
         // Get references to the build and classes output directories
         final String buildDir = project.getLayout().getBuildDirectory().get().toString();
-        System.err.println("build dir " + buildDir);
-        System.err.println("build dir 2 " + project.getBuildDir());
         final Path destinationDir = Paths.get(buildDir).resolve("classes").resolve("jasmin").resolve(name);
 
         // Ensure that compiled Jasmin classes appear on the Java classpath
