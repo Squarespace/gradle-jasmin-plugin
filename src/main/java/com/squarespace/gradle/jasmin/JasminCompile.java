@@ -44,9 +44,7 @@ public class JasminCompile extends AbstractCompile {
     @Override
     public Class<?> loadClass(String name) throws ClassNotFoundException {
       if (this.name.equals(name)) {
-        Class<?> result = defineClass(name, data, 0, data.length);
-        System.out.println(result);
-        return result;
+        return defineClass(name, data, 0, data.length);
       }
       return super.loadClass(name);
     }
