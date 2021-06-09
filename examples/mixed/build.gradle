@@ -1,12 +1,5 @@
-
-buildscript {
-  repositories {
-    mavenLocal()
-    mavenCentral()
-  }
-  dependencies {
-    classpath 'com.squarespace.gradle.jasmin:gradle-jasmin-plugin:0.7'
-  }
+plugins {
+  id 'com.squarespace.jasmin' version '0.7'
 }
 
 repositories {
