@@ -111,7 +111,12 @@ public class JasminCompile extends AbstractCompile {
     Path filePath = Paths.get(file.getAbsolutePath());
     for (Path dir : sourceDirs) {
        if (filePath.startsWith(dir)) {
-         return dir.relativize(filePath).getParent();
+         Path relativePath = dir.relativize(filePath).getParent();
+         if (relativePath == null) {
+           // The source file is in the default package.
+           return Path.of("");
+         }
+         return relativePath;
        }
     }
     return filePath.getParent();
