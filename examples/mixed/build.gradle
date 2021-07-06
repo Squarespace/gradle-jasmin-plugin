@@ -1,5 +1,5 @@
 plugins {
-  id 'com.squarespace.jasmin' version '0.7'
+  id 'com.squarespace.jasmin' version '0.8'
 }
 
 repositories {
