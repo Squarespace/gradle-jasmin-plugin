@@ -22,6 +22,9 @@ eclipse {
 group = 'com.squarespace.gradle.jasmin'
 version = '0.8'
 
+sourceCompatibility = 8
+targetCompatibility = 8
+
 pluginBundle {
   website = 'https://github.com/Squarespace/gradle-jasmin-plugin/'
   vcsUrl = 'https://github.com/Squarespace/gradle-jasmin-plugin.git'

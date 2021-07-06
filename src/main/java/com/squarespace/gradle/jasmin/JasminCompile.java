@@ -114,7 +114,7 @@ public class JasminCompile extends AbstractCompile {
          Path relativePath = dir.relativize(filePath).getParent();
          if (relativePath == null) {
            // The source file is in the default package.
-           return Path.of("");
+           return Paths.get(""); // JDK 8-compatible
          }
          return relativePath;
        }
